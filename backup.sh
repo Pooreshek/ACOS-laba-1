@@ -15,7 +15,7 @@ USAGE_PERCENT=$(df $LOG_DIR | tail -1 | awk '{print $5}' | tr -d '%')
 echo "Usage percent: $USAGE_PERCENT%"
 
 if [ $USAGE_PERCENT -gt $THRESHOLD ]; then
-        echo "The limits are overrun, archivation started"
+	echo "The limits are overrun, archivation started"
 
         if [ ! -d $BACKUP_DIR ]; then
                 sudo mkdir -p $BACKUP_DIR && sudo chmod 777 $BACKUP_DIR
