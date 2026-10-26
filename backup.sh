@@ -20,11 +20,6 @@ if [[ ! "$M_FILES" =~ ^[1-9][0-9]*$ ]]; then
     exit 1
 fi
 
-if [ "$M_FILES" -lt 0 ]; then
-	echo "Error: M_FILES must be a positive number"
-	exit 1
-fi
-
 if [ ! -d "$LOG_DIR" ]; then
         echo "Folder $LOG_DIR is not found!"
         exit 1
