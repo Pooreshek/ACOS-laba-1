@@ -10,7 +10,7 @@ if [[ $# -ne 3 ]]; then
     exit 1
 fi
 
-if (( THRESHOLD > 100 )); then
+if (( THRESHOLD < 0 || THRESHOLD > 100 )); then
     echo "Error: THRESHOLD must be between 0 and 100."
     exit 1
 fi
@@ -41,7 +41,7 @@ if [ "$USAGE_PERCENT" -gt "$THRESHOLD" ]; then
                 sudo mkdir -p "$BACKUP_DIR" && sudo chmod 700 "$BACKUP_DIR"
         fi
 
-        cd "$LOG_DIR" || exit 1
+        cd "$LOG_DIR"
         OLD_FILES=$(ls -tr | grep "log" | head -n "$M_FILES")
 
         ARCHIVE_NAME="$BACKUP_DIR/backup_$(date +%Y%m%d_%H%M%S).tar.gz"
