@@ -47,7 +47,5 @@ echo "RESULTS"
 echo "Number of files in the logs direcrtory (expected 3):"
 sudo tar -tzf "$BACKUP_DIR"/backup_*.tar.gz | wc -l
 
-read
-
 echo "Demolishing the virtual disk..."
 sudo umount $TEST_DIR
