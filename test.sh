@@ -45,7 +45,7 @@ echo "SIXTH TEST (M_FILES IS -3)"
 echo "RESULTS"
 
 echo "Number of files in the logs direcrtory (expected 3):"
-ls -1 $BACKUP_DIR | wc -l
+sudo tar -tzf "$BACKUP_DIR"/backup_*.tar.gz | wc -l
 
 read
 
