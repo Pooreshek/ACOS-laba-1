@@ -39,7 +39,10 @@ echo "FOURTH TEST (ONLY TWO ARGUMENTS)"
 echo "FIFTH TEST (THRESHOLD IS 105)"
 ./backup.sh $TEST_DIR 105 3
 
-echo "SIXTH TEST (M_FILES IS -3)"
+echo "SIXTH TEST (THRESHOLD IS LESS THAN 0)"
+./backup.sh $TEST_DIR -1 3
+
+echo "SEVENTH TEST (M_FILES IS -3)"
 ./backup.sh $TEST_DIR 5 -3
 
 echo "RESULTS"
