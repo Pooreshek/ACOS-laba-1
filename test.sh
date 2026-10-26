@@ -33,10 +33,19 @@ echo "SECOND TEST (THRESHOLD IS AT 5%)"
 echo "THIRD TEST (WRONG LOG_DIR)"
 ./backup.sh 132 95 3
 
+echo "FOURTH TEST (INCORRECT ARGUMENTS)"
+./backup.sh $TEST_DIR 5 
+
+echo "FIFTH TEST (THRESHOLD MUST BE BETWEEN 0 AND 100)"
+./backup.sh $TEST_DIR 105 3
+
+echo "SIXTH TEST (M_FILES MUST BE A POSITIVE INTEGER)"
+./backup.sh $TEST_DIR 5 -3
+
 echo "RESULTS"
 
-echo "Number of files left in the logs direcrtory (expected 7):"
-ls -1 $TEST_DIR | wc -l
+echo "Number of files in the logs direcrtory (expected 3):"
+ls -1 $BACKUP_DIR | wc -l
 
 read
 
