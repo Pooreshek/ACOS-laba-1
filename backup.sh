@@ -5,33 +5,48 @@ THRESHOLD=$2
 M_FILES=$3
 BACKUP_DIR="/backup"
 
-if [ ! -d $LOG_DIR ]; then
+if [[ $# -ne 3 ]]; then
+    echo "Error: Incorrect arguments. Expected: sudo $0 <log_directory> <threshold_percent> <number_of_files>"
+    exit 1
+fi
+
+if [[ ! "$THRESHOLD" =~ ^[0-9]+$ ]] ||
+   (( THRESHOLD > 100 )); then
+    echo "Error: THRESHOLD must be between 0 and 100."
+    exit 1
+fi
+
+if [[ ! "$M_FILES" =~ ^[1-9][0-9]*$ ]]; then
+    echo "Error: M_FILES must be a positive integer."
+    exit 1
+fi
+
+if [ ! -d "$LOG_DIR" ]; then
         echo "Folder $LOG_DIR is not found!"
         exit 1
 fi
 
-USAGE_PERCENT=$(df $LOG_DIR | tail -1 | awk '{print $5}' | tr -d '%')
+USAGE_PERCENT=$(df "$LOG_DIR" | tail -1 | awk '{print $5}' | tr -d '%')
 
 echo "Usage percent: $USAGE_PERCENT%"
 
-if [ $USAGE_PERCENT -gt $THRESHOLD ]; then
+if [ "$USAGE_PERCENT" -gt "$THRESHOLD" ]; then
 	echo "The limits are overrun, archivation started"
 
-        if [ ! -d $BACKUP_DIR ]; then
-                sudo mkdir -p $BACKUP_DIR && sudo chmod 777 $BACKUP_DIR
+        if [ ! -d "$BACKUP_DIR" ]; then
+                sudo mkdir -p "$BACKUP_DIR" && sudo chmod 700 "$BACKUP_DIR"
         fi
 
-        cd $LOG_DIR
-        OLD_FILES=$(ls -tr | grep "log" | head -n $M_FILES)
+        cd "$LOG_DIR" || exit 1
+        OLD_FILES=$(ls -tr | grep "log" | head -n "$M_FILES")
 
-        ARCHIVE_NAME="$BACKUP_DIR/backup_$(date +%Y%m%d).tar.gz"
+        ARCHIVE_NAME="$BACKUP_DIR/backup_$(date +%Y%m%d_%H%M%S).tar.gz"
 
         echo "Archiving..."
-        sudo tar -czf $ARCHIVE_NAME $OLD_FILES
+        sudo tar -czf "$ARCHIVE_NAME" $OLD_FILES
 
         if [ $? -eq 0 ]; then
-                rm -f $OLD_FILES
-                echo "Old files removed successfuly"
+                echo "Old files archived successfuly"
         fi
 else
         echo "Archivation is not requiered"
