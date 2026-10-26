@@ -6,19 +6,23 @@ M_FILES=$3
 BACKUP_DIR="/backup"
 
 if [[ $# -ne 3 ]]; then
-    echo "Error: Incorrect arguments. Expected: sudo $0 <log_directory> <threshold_percent> <number_of_files>"
+    echo "Error: Incorrect arguments. Expected: 3"
     exit 1
 fi
 
-if [[ ! "$THRESHOLD" =~ ^[0-9]+$ ]] ||
-   (( THRESHOLD > 100 )); then
+if (( THRESHOLD > 100 )); then
     echo "Error: THRESHOLD must be between 0 and 100."
     exit 1
 fi
 
 if [[ ! "$M_FILES" =~ ^[1-9][0-9]*$ ]]; then
-    echo "Error: M_FILES must be a positive integer."
+    echo "Error: M_FILES must be a real integer."
     exit 1
+fi
+
+if [ "$M_FILES" -lt 0 ]; then
+	echo "Error: M_FILES must be a positive number"
+	exit 1
 fi
 
 if [ ! -d "$LOG_DIR" ]; then
