@@ -7,7 +7,7 @@ sudo umount $TEST_DIR 2>/dev/null
 sudo rm -rf $TEST_DIR
 sudo rm -rf $BACKUP_DIR/* 2>/dev/null
 
-sudo mkdir -p $TEST_DIR && sudo chmod 777 $TEST_DIR
+sudo mkdir -p $TEST_DIR
 
 echo "Creating the virtual disk..."
 sudo mount -t tmpfs -o size=100M tmpfs $TEST_DIR
